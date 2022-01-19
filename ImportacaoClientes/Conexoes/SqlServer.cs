@@ -22,8 +22,10 @@ namespace ImportacaoClientes.Conexoes
         {
             try
             {
+                // abre a conexao
                 _conexao.Open();
 
+                // apenas a query de insert
                 string query = @"INSERT INTO Cliente
                                        (Nome
                                        ,Cpf
@@ -37,20 +39,23 @@ namespace ImportacaoClientes.Conexoes
                                        ,@Genero
                                        ,@Nacionalidade);";
 
+                // recebe a conexao para preparar instrucoes a serem enviadas para a base
                 using(var cmd = new SqlCommand(query, _conexao))
                 {
+                    // adiciona o parametro e valor mapeado na query acima
                     cmd.Parameters.AddWithValue("@Nacionalidade", cliente.Nacionalidade);
                     cmd.Parameters.AddWithValue("@Idade", cliente.Idade);
-
                     cmd.Parameters.AddWithValue("@Nome", cliente.Nome);
                     cmd.Parameters.AddWithValue("@Cpf", cliente.Cpf);
                     cmd.Parameters.AddWithValue("@Genero", cliente.Sexo);
 
+                    // envia o insert para o banco de dados
                     cmd.ExecuteNonQuery();
                 }
             }
             finally
             {
+                // fecha a conexao
                 _conexao.Close();
             }
         }
