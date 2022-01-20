@@ -16,9 +16,13 @@ namespace ImportacaoClientes
             var sql = new Conexoes.SqlServer();
             foreach (var cliente in clientes)
             {
-                sql.InserirCliente(cliente);
+                bool isClienteExiste = sql.VerificarExistenciaCliente(cliente.Cpf);
+                if (isClienteExiste)
+                    sql.AtualizarCliente(cliente);
+                else
+                    sql.InserirCliente(cliente);
             }
-            
+
         }
 
         public List<Entidades.Cliente> ObterClientes()
